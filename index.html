@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Controle Remoto da Vida</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #00d2ff;
+            text-shadow: 2px 2px 4px #000;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        p {
+            color: #aaaaaa;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* O Corpo do Controle Remoto */
+        .remote-control {
+            background: linear-gradient(145deg, #2b2b2b, #1e1e1e);
+            width: 300px;
+            padding: 30px 20px;
+            border-radius: 40px;
+            box-shadow: 10px 10px 30px #0b0b0b, -10px -10px 30px #292929;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #444;
+        }
+
+        /* A Tela Digital do Controle */
+        .screen {
+            background-color: #052614;
+            color: #00ff66;
+            font-family: 'Courier New', Courier, monospace;
+            width: 90%;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            box-shadow: inset 2px 2px 10px #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        /* Estilo Base dos Botões */
+        .btn {
+            width: 85%;
+            padding: 15px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 3px 3px 10px #111, inset 2px 2px 5px rgba(255,255,255,0.2);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Cores de cada botão/canal */
+        .btn-power { background-color: #d32f2f; margin-bottom: 20px; border-radius: 50%; width: 70px; height: 70px; }
+        .btn-soneca { background-color: #5c6bc0; }
+        .btn-zen { background-color: #43a047; }
+        .btn-jovem { background-color: #e64a19; }
+        .btn-bossa { background-color: #00acc1; }
+        .btn-balada { background-color: #8e24aa; }
+        .btn-beatles { background-color: #fbc02d; color: #111; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Controle Remoto do Tempo</h1>
+    <p>Aperte um botão e mude a energia da sala!</p>
+
+    <div class="remote-control">
+        <div class="screen" id="display">DESLIGADO</div>
+
+        <button class="btn btn-power" onclick="stopAll()">OFF</button>
+
+        <button class="btn btn-soneca" onclick="playChannel('Canal Soneca', 'audio-soneca')">🌙 Soneca</button>
+        <button class="btn btn-zen" onclick="playChannel('Canal Zen', 'audio-zen')">🧘 Meditação</button>
+        <button class="btn btn-balada" onclick="playChannel('A Balada', 'audio-balada')">🪩 Balada (Gangnam)</button>
+        <button class="btn btn-beatles" onclick="playChannel('The Beatles', 'audio-beatles')">🍏 Beatles (Yellow Sub.)</button>
+        <button class="btn btn-jovem" onclick="playChannel('Jovem Guarda', 'audio-jovem')">🚗 Jovem Guarda</button>
+        <button class="btn btn-bossa" onclick="playChannel('Bossa Nova', 'audio-bossa')">🌊 Bossa Nova</button>
+    </div>
+
+    <audio id="audio-soneca" src="Brahms Lullaby.mp3"></audio>
+    <audio id="audio-zen" src="Zen Music With Water Sounds _ Peaceful music for Spa, Yoga, Relaxation  #relax #spa #yoga #zenmusic.mp3"></audio>
+    <audio id="audio-balada" src="PSY - GANGNAM STYLE [Original Video].mp3"></audio>
+    <audio id="audio-beatles" src="Yellow Submarine.mp3"></audio>
+    <audio id="audio-jovem" src="Roberto Carlos - O Calhambeque (Road Hog) (Áudio Oficial).mp3"></audio>
+    <audio id="audio-bossa" src="Dick Farney - Garota de Ipanema.mp3"></audio>
+
+    <script>
+        function stopAll() {
+            const audios = document.querySelectorAll('audio');
+            audios.forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+            document.getElementById('display').innerText = "DESLIGADO";
+            document.getElementById('display').style.color = "#ff4444";
+        }
+
+        function playChannel(channelName, audioId) {
+            stopAll();
+            
+            const audioElement = document.getElementById(audioId);
+            if(audioElement) {
+                // Inicia o Calhambeque nos 20 segundos para pular a introdução
+                if(audioId === 'audio-jovem') {
+                    audioElement.currentTime = 20;
+                }
+                audioElement.play().catch(e => console.log("Áudio não encontrado. Lembre-se de subir as músicas no GitHub junto com o index.html!"));
+            }
+
+            document.getElementById('display').innerText = channelName;
+            document.getElementById('display').style.color = "#00ff66";
+        }
+    </script>
+
+</body>
+</html>
